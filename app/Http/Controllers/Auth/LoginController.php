@@ -14,17 +14,18 @@ class LoginController extends Controller
 return view('auth.login');
     }
     public function store(Request $request){
+         
 //responsible for signing the user in
 //dd('son of a bitch you in'); just to check if everything is working
 $this->validate(//calidating the stuff entered in the login page
     $request,
     [
         'email' => 'required|email',
-        'password' => 'required'  
+        'password' => 'required'   
     ]);
 
-if(!auth()->attempt($request->only('email', 'password'))){//if invalid credentials are given user just gets redirected to the same page
-    return back()->with('status','Invalid login details');
+if(!auth()->attempt($request->only('email', 'password'),$request->remember)){//if invalid credentials are given user just gets redirected to the same page and remember me
+    return back()->with('status','Invalid login credentials');
 }
 
 
